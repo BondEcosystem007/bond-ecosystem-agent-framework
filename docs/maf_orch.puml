@@ -1,0 +1,102 @@
+@startuml
+!define RECTANGLE class
+!define INTERFACE interface
+skinparam rectangle {
+  BackgroundColor<<AI_Engineer>> Wheat
+  BackgroundColor<<Client>> Wheat
+}
+skinparam package {
+  BackgroundColor<<MAF>> LightGreen
+  BackgroundColor<<Systems>> LightBlue
+  
+}
+
+
+
+RECTANGLE "Crafts Prompt" as AI_Engineer <<AI_Engineer>> {
+    + userStories()
+}
+
+
+RECTANGLE "Client Applications" as Client <<Client>> {
+  [User Interface]
+}
+
+
+package "Multi-Agent Framework (eg AgentLite, AutoGen)" as MAF <<MAF>> {
+
+    RECTANGLE Product_Manager_Agent {
+        + breaksDownWork()
+        + createsPlan()
+    }
+
+    RECTANGLE Critique_Agent {
+        + critiquesPlan()
+    }
+
+    RECTANGLE LLM_QA_Agent {
+        + reviewsCode()
+    }
+
+
+    RECTANGLE LLM_Coder_Agent {
+        + testsAPIs()
+        + writeCode()
+        + writeTestCode()
+        + callsHelperFunctions()
+    }
+
+    RECTANGLE User_Proxy_Agent {
+        + manageAgents()
+        + consolidateResults()
+        + presentsResultsBack()
+
+    }
+
+    AI_Engineer --> User_Proxy_Agent
+    User_Proxy_Agent --> Product_Manager_Agent
+    Product_Manager_Agent --> Critique_Agent
+    Critique_Agent --> Product_Manager_Agent
+    Product_Manager_Agent --> LLM_Coder_Agent
+    LLM_Coder_Agent --> LLM_QA_Agent
+    LLM_QA_Agent --> LLM_Coder_Agent
+    LLM_Coder_Agent --> Product_Manager_Agent
+    Product_Manager_Agent --> User_Proxy_Agent
+
+}
+
+package "Systems" as Systems <<Systems>> {
+    RECTANGLE Mulesoft {
+        + API Gateway
+        + Authentication Service
+    }
+
+    RECTANGLE Tableau {
+        + Dashboard Management
+        + Usage Statistics
+    }
+
+    RECTANGLE Snowflake {
+        + Data Storage
+        + Historical Analysis
+    }
+
+    RECTANGLE "Airflow (future)" as AF {
+        + Task Scheduling
+        + Workflow Management
+    }
+}
+
+
+LLM_Coder_Agent --> Mulesoft : Write RAML to author API
+LLM_Coder_Agent --> Tableau : Write code to Retrieve Data
+LLM_Coder_Agent --> Snowflake : Write code to Store and Query Data
+LLM_Coder_Agent --> AF : Write code to call Mulesoft to Extracts/Store Data
+Mulesoft --> Tableau
+Mulesoft --> Snowflake
+AF --> Mulesoft
+Client --> Mulesoft
+AI_Engineer --> User_Proxy_Agent
+
+
+@enduml

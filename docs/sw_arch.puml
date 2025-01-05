@@ -1,0 +1,44 @@
+@startuml
+!define RECTANGLE class
+skinparam rectangle {
+  BackgroundColor<<Airflow>> Beige
+  BackgroundColor<<API>> HoneyDew
+  BackgroundColor<<Tableau>> LightBlue
+  BackgroundColor<<Snowflake>> PapayaWhip
+  BackgroundColor<<Client>> LemonChiffon
+}
+
+rectangle "Client Applications" as Client <<Client>> {
+  [User Interface]
+}
+
+rectangle "MuleSoft API Layer" as API <<API>> {
+  [Authentication Service]
+  [Dashboard Management]
+  [User Management]
+  [Usage Statistics]
+}
+
+rectangle "Airflow (future)" as Airflow <<Airflow>> {
+  [Runs every 15 minutes]
+  [Calls Mule to fetch Tableau data, store in Snowflake]
+}
+
+rectangle "Tableau Server" as Tableau <<Tableau>> {
+  [Tableau Dashboards]
+  [Metadata Repository]
+}
+
+rectangle "Snowflake Database" as Snowflake <<Snowflake>> {
+  [User Details]
+  [Session Logs]
+  [Data Lineage Records]
+}
+
+Client --> API : uses
+Airflow --> API : orchestrates for historical collection
+API --> Tableau : fetches data for real-time stats
+API --> Snowflake : stores/logs data
+Snowflake ..> API : provides data for historical stats
+
+@enduml
