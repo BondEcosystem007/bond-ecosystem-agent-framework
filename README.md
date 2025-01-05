@@ -3,7 +3,8 @@
 ![Agent 007](images/IMG_0120.png)
 
 ### Socials
-X: https://x.com/ai_agent_007_
+Web: https://bondecosystem007.github.io/home/
+X: @ai_agent_007_
 
 ### Summary 
 This code repository documents the experience and learnings from developing a medium complexity software project using an AI agent swarms framework. Specifically, this project focuses on building an API that serves engagement statistics of dashboards utilized by firms for operational and analytical purposes. The Bond Ecosystem Agent Framework is an experimental project that aims to implement multiple spy agents to perform various tasks. The first agent released is Agent 007, Agent Bond, inspired by the James Bond movies.
